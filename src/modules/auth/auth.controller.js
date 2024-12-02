@@ -37,6 +37,8 @@ class authController {
         .status(200)
         .json({
           message: authMessages.loginSuccessfull,
+          mobile: mobile,
+          accessToken: token
         });
     } catch (error) {
       next(error);

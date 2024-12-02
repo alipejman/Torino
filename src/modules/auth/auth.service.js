@@ -18,7 +18,6 @@ class authService {
       code: randomInt(10000, 99999).toString(),
       expiresIn: now + 1000 * 60 * 2,
     };
-
     if (!user) {
       console.log("Creating new user with mobile:", mobile);
       try {
@@ -47,7 +46,7 @@ class authService {
     const now = new Date().getTime();
     const user = await this.checkExistByMobile(mobile);
 
-    const lastOtp = user.otp[user.otp.length - 1]; // آخرین OTP
+    const lastOtp = user.otp[user.otp.length - 1];
     if (!lastOtp || lastOtp.expiresIn < now) {
       throw new createHttpError.Unauthorized(authMessages.otpCodeExpireIn);
     }
@@ -57,7 +56,7 @@ class authService {
     if (!user.verifiedMobile) {
       user.verifiedMobile = true;
     }
-    const accessToken = this.signToken({ mobile, id: user._id });
+    const accessToken = this.signToken({ mobile: user.mobile, id: user._id });
     user.accessToken = accessToken;
     await user.save();
     return accessToken;

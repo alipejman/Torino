@@ -17,11 +17,17 @@ const emailValidator = (value) => {
     const cardNumberRegex = /^\d{16}$/;
     return value === null || cardNumberRegex.test(value);
   };
+
+  const mobileValidator = (value) => {
+    const mobileRegex = /^09\d{9}$/;
+    return mobileRegex.test(value);
+  };
   
   module.exports = {
     emailValidator,
     nationalCodeValidator,
     shabaNumberValidator,
     cardNumberValidator,
+    mobileValidator
   };
   
