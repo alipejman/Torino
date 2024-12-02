@@ -2,7 +2,6 @@
   "name": "torino",
   "version": "1.0.0",
   "main": "main.js",
-  "devDependencies": {},
   "scripts": {
     "start": "nodemon node main.js"
   },
@@ -11,7 +10,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "auto-bind": "^5.0.1",
+    "auto-bind": "^3.0.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
