@@ -1,11 +1,27 @@
-const emailValidator = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-const nationalCodeValidator = (v) => /^\d{10}$/.test(v);
-const shabaNumberValidator = (v) => /^(?:IR)(?=.{24}$)[0-9]*$/.test(v);
-const cardNumberValidator = (v) => /^\d+([\/.-]\d+)*$/.test(v);
-
-module.exports = {
+const emailValidator = (value) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return value === null || emailRegex.test(value);
+  };
+  
+  const nationalCodeValidator = (value) => {
+    const nationalCodeRegex = /^\d{10}$/;
+    return value === null || nationalCodeRegex.test(value);
+  };
+  
+  const shabaNumberValidator = (value) => {
+    const shabaRegex = /^IR\d{24}$/;
+    return value === null || shabaRegex.test(value);
+  };
+  
+  const cardNumberValidator = (value) => {
+    const cardNumberRegex = /^\d{16}$/;
+    return value === null || cardNumberRegex.test(value);
+  };
+  
+  module.exports = {
     emailValidator,
     nationalCodeValidator,
     shabaNumberValidator,
-    cardNumberValidator
-};
+    cardNumberValidator,
+  };
+  
