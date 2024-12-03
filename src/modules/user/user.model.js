@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const { mobileValidator } = require("../../common/utils/validation");
 
 const userSchema = new Schema(
   {
@@ -8,10 +7,6 @@ const userSchema = new Schema(
       type: String,
       required: true,
       unique: true,
-      validate: {
-        validator: mobileValidator,
-        message: (props) => `${props.value} is not a valid mobile number! It must start with 09 and be 11 digits long.`,
-      },
     },
     email: { type: String, required: false, lowercase: true, trim: true, default: null },
     birthday: { 

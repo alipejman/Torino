@@ -1,9 +1,10 @@
 const autoBind = require("auto-bind");
-
+const createHttpError = require('http-errors'); // اگر از http-errors استفاده می‌کنید
 const nodeEnv = require("../../common/constant/env.enum");
 const userService = require("./user.service");
 const User = require("../user/user.model");
 const userMessages = require("./user.messages");
+const { validationResult } = require("express-validator");
 class userController {
   #service;
   constructor() {
@@ -19,42 +20,57 @@ class userController {
       next(error);
       }
     }
-    // ست کردن ایمیل کاربر در پروفایلش
-    async setUserEmail(req, res, next) {
-      try {
+ // ست کردن ایمیل کاربر در پروفایلش
+ async setUserEmail(req, res, next) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+  }
+  try {
       const userId = req.user._id;
       const { email } = req.body;
       const updatedUser = await this.#service.setUserEmail(userId, email);
       return res.json({
-        message: userMessages.emailSet,
-        email: email,});
-      } catch (error) {
-      next(error);}
-    }
+          message: userMessages.emailSet,
+          email: email,
+      });
+  } catch (error) {
+      next(error);
+  }
+}
     // ست کردن اطلاعات شخصی کاربر در پروفایل خودش
     async setUserPersonalData(req, res, next) {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array() });
+      }
       try {
-      const userId = req.user._id;
-      const { firstName, nationalCode, gender, birthday } = req.body;
-      const updatedUser = await this.#service.setUserPesonalData(
-        userId,
-        firstName,
-        nationalCode,
-        gender,
-        birthday
-      );
-      return res.json({
-        message: userMessages.userPersonalData,
-        firstName: updatedUser.firstName,
-        nationalCode: updatedUser.nationalCode,
-        gender: updatedUser.gender,
-        birthday: updatedUser.birthday,
-      });} catch (error) {
-      next(error);}
-    }
+          const userId = req.user._id;
+          const { firstName, nationalCode, gender, birthday } = req.body;
+          const updatedUser = await this.#service.setUserPesonalData(
+              userId,
+              firstName,
+              nationalCode,
+              gender,
+              birthday
+          );
+          return res.json({
+              message: userMessages.userPersonalData,
+              firstName: updatedUser.firstName,
+              nationalCode: updatedUser.nationalCode,
+              gender: updatedUser.gender,
+              birthday: updatedUser.birthday,
+          });
+      } catch (error) {
+          next(error);
+      }
+  }
 
     // ثبت کردن اطلاعات بانکی کاربر در پنل کاربریش
     async submitBankAccountDetails(req, res, next) {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });}
       try {
       const userId = req.user._id;
       const {shabaNumber, cardNumber, accountNumber} = req.body;

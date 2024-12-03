@@ -1,7 +1,7 @@
 /**
  * @swagger
  * tags:
- *   name: user
+ *   name: User
  *   description: User Module and Routes
  */
 
@@ -11,7 +11,7 @@
  *   get:
  *     summary: Get User Profile Data
  *     tags:
- *       - user
+ *       - User
  *     responses: 
  *       200:
  *         description: Success
@@ -38,7 +38,7 @@
  *   put:
  *     summary: Set User Email
  *     tags:
- *       - user
+ *       - User
  *     requestBody:
  *       required: true
  *       content:
@@ -88,7 +88,7 @@
  *   put:
  *     summary: Set User Personal Data
  *     tags:
- *       - user
+ *       - User
  *     requestBody:
  *       required: true
  *       content:
@@ -189,7 +189,7 @@
  *   put:
  *     summary: Set User Bank Details
  *     tags:
- *       - user
+ *       - User
  *     requestBody:
  *       required: true
  *       content:

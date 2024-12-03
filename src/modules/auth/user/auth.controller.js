@@ -1,8 +1,10 @@
 const autoBind = require("auto-bind");
 const { authMessages } = require("./auth.messages");
-const nodeEnv = require("../../common/constant/env.enum");
-const cookieName = require("../../common/constant/cookie.enum");
+const nodeEnv = require("../../../common/constant/env.enum");
+const cookieName = require("../../../common/constant/cookie.enum");
 const authService = require("./auth.service");
+const { validationResult } = require("express-validator");
+
 
 class authController {
   #service;
@@ -11,6 +13,9 @@ class authController {
     this.#service = authService;
   }
   async sendOTP(req, res, next) {
+    const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });}
     try {
         const { mobile } = req.body;
         const user = await this.#service.sendOTP(mobile);

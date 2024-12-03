@@ -1,7 +1,6 @@
 const autoBind = require("auto-bind");
 const userModel = require("../user/user.model");
 const createHttpError = require("http-errors");
-const { emailValidator, shabaNumberValidator, cardNumberValidator } = require("../../common/utils/validation");
 class userService {
   #model;
   constructor() {
@@ -10,8 +9,6 @@ class userService {
 
     // ست کردن ایمیل کاربر در پنل کاربری
     async setUserEmail(userId, email) {
-      const emailWithValidation = emailValidator(email)
-      if (!emailWithValidation) throw createHttpError(400, `${email} ایمیل معتبر نمیباشد`);
       const updatedUser = await this.#model.findByIdAndUpdate(
       userId,
       { email },

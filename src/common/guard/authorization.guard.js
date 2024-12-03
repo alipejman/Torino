@@ -13,7 +13,6 @@ const authorizationGuard = async (req, res, next) => {
             if(!user) throw new createHttpError.Unauthorized(authorizationMessages.notFoundAccount);
             req.user = user
             return next();
-            
         }
         throw new createHttpError.Unauthorized(authorizationMessages.invaliToken);
     } catch (error) {

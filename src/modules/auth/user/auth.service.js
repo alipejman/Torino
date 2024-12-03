@@ -1,5 +1,5 @@
 const autoBind = require("auto-bind");
-const userModel = require("../user/user.model");
+const userModel = require("../../user/user.model");
 const createHttpError = require("http-errors");
 const { authMessages } = require("./auth.messages");
 const jwt = require("jsonwebtoken");
