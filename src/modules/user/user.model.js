@@ -14,7 +14,11 @@ const userSchema = new Schema(
       },
     },
     email: { type: String, required: false, lowercase: true, trim: true, default: null },
-    birthday: { type: Date, required: false, default: null },
+    birthday: { 
+      day: { type: Number, required: false, default: null },
+      month: { type: Number, required: false, default: null },
+      year: { type: Number, required: false, default: null },
+    },
     nationalCode: { type: String, required: false, default: '' },
     gender: { type: String, enum: ["male", "female", "other"], required: false, default: null },
     bankAccount: {

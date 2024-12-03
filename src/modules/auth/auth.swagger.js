@@ -1,7 +1,7 @@
 /**
  * @swagger
  * tags:
- *  name: auth
+ *  name: auth User
  *  description: Auth Module and Routes
  */
 
@@ -37,7 +37,7 @@
  *   post:
  *     summary: Send OTP for mobile login
  *     tags:
- *       - auth
+ *       - auth User
  *     requestBody:
  *       required: true
  *       content:
@@ -85,7 +85,7 @@
  *   post:
  *     summary: Check OTP for user login
  *     tags:
- *       - auth
+ *       - auth User
  *     requestBody:
  *       required: true
  *       content:
@@ -124,7 +124,7 @@
  *   get:
  *     summary: Logout user
  *     tags:
- *       - auth
+ *       - auth User
  *     responses: 
  *       200:
  *         description: User logged out successfully
