@@ -47,6 +47,22 @@ class userService {
       return updatedBankAccount;}
 
 
+      async getAllUsers() {
+        const allUsers= await this.#model.find().select({
+          firstName: 1,
+          mobile: 1,
+          nationalCode: 1,
+          gender: 1,
+          birthday: 1,
+          bankAccount: 1,
+          verifiedMobile: 1
+      });
+      return allUsers;
+      }
+
+      
+
+
 }
 
 

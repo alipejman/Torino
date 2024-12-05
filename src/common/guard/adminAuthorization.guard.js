@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const adminAuthorizationGuard = async (req, res, next) => {
         try {
-        const token = req.cookies.accessToken;
+        const token = req?.cookies?.accessToken;
         if (!token) throw new createHttpError.Unauthorized("ادمین وارد نشده");  
         const data = jwt.verify(token, process.env.JWT_SECRET_KEY);
         if (data?.id) {

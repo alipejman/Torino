@@ -1,19 +1,16 @@
 const multer = require('multer');
 const path = require('path');
 
-// تنظیمات ذخیره‌سازی
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // مسیر ذخیره‌سازی فایل‌ها
+        cb(null, 'uploads/');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // نام فایل با زمان فعلی
+        cb(null, Date.now() + path.extname(file.originalname));
     },
 });
-
-// فیلتر برای نوع فایل
 const fileFilter = (req, file, cb) => {
-    const filetypes = /jpeg|jpg|png/; // انواع فایل مجاز
+    const filetypes = /jpeg|jpg|png/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = filetypes.test(file.mimetype);
 
@@ -23,11 +20,9 @@ const fileFilter = (req, file, cb) => {
         cb(new Error('فقط تصاویر مجاز هستند!'));
     }
 };
-
-// ایجاد middleware multer
 const upload = multer({
     storage: storage,
-    limits: { fileSize: 1000000 }, // حداکثر اندازه فایل 1MB
+    limits: { fileSize: 1000000 },
     fileFilter: fileFilter,
 });
 
