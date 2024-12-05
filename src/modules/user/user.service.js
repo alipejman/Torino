@@ -1,69 +1,90 @@
 const autoBind = require("auto-bind");
 const userModel = require("../user/user.model");
 const createHttpError = require("http-errors");
+const userMessages = require("./user.messages");
+const { default: mongoose } = require("mongoose");
 class userService {
   #model;
   constructor() {
     autoBind(this);
-    this.#model = userModel;}
+    this.#model = userModel;
+  }
 
-    // ست کردن ایمیل کاربر در پنل کاربری
-    async setUserEmail(userId, email) {
-      const updatedUser = await this.#model.findByIdAndUpdate(
+  // ست کردن ایمیل کاربر در پنل کاربری
+  async setUserEmail(userId, email) {
+    const updatedUser = await this.#model.findByIdAndUpdate(
       userId,
       { email },
-      { new: true, runValidators: true });
-      if (!updatedUser) throw createHttpError(404, "کاربر پیدا نشد !!");
-      return updatedUser;}
-                        
-    // ست کردن اطلاعات شخصی کاربر در پنل کاربری
-    async setUserPesonalData(userId, firstName, nationalCode, gender, birthday) {
-      const updatedUser = await this.#model.findByIdAndUpdate(
+      { new: true, runValidators: true }
+    );
+    if (!updatedUser) throw createHttpError(404, "کاربر پیدا نشد !!");
+    return updatedUser;
+  }
+
+  // ست کردن اطلاعات شخصی کاربر در پنل کاربری
+  async setUserPesonalData(userId, firstName, nationalCode, gender, birthday) {
+    const updatedUser = await this.#model.findByIdAndUpdate(
       userId,
       { firstName, nationalCode, gender, birthday },
       { new: true, runValidators: true }
-      );
-      if (!updatedUser) throw createHttpError(404, "کاربر پیدا نشد");
-      return updatedUser;}
+    );
+    if (!updatedUser) throw createHttpError(404, "کاربر پیدا نشد");
+    return updatedUser;
+  }
 
-    // ست کردن اطلاعات بانکی کاربر در پنل
-    async submitBankAccountDetails(userId, shabaNumber, cardNumber, accountNumber) {
-      const getUser = await this.#model.findById(userId);
-      if (!getUser) throw new createHttpError(404, 'کاربر پیدا نشد');
-      const updatedBankAccount = await this.#model.updateOne(
+  // ست کردن اطلاعات بانکی کاربر در پنل
+  async submitBankAccountDetails(
+    userId,
+    shabaNumber,
+    cardNumber,
+    accountNumber
+  ) {
+    const getUser = await this.#model.findById(userId);
+    if (!getUser) throw new createHttpError(404, "کاربر پیدا نشد");
+    const updatedBankAccount = await this.#model.updateOne(
       { _id: userId },
       {
-      bankAccount: {
-        shabaNumber,
-        cardNumber,
-        accountNumber
-      }
+        bankAccount: {
+          shabaNumber,
+          cardNumber,
+          accountNumber,
+        },
       },
       { new: true, runValidators: true }
-      );
-      if (updatedBankAccount.nModified === 0) {
-      throw new createHttpError(400, 'اطلاعات بانکی به‌روزرسانی نشد');
-      }
-      return updatedBankAccount;}
+    );
+    if (updatedBankAccount.nModified === 0) {
+      throw new createHttpError(400, "اطلاعات بانکی به‌روزرسانی نشد");
+    }
+    return updatedBankAccount;
+  }
 
+  // دریافت تمام کاربران برای ادمین
+  async getAllUsers() {
+    const allUsers = await this.#model.find().select({
+      firstName: 1,
+      mobile: 1,
+      nationalCode: 1,
+      gender: 1,
+      birthday: 1,
+      bankAccount: 1,
+      verifiedMobile: 1,
+    });
+    return allUsers;
+  }
+  // حذف کاربر
+  async deleteUser(userId) {
+    // بررسی اینکه userId یک ObjectId معتبر است
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      throw new createHttpError(400, "Invalid user ID");
+    }
 
-      async getAllUsers() {
-        const allUsers= await this.#model.find().select({
-          firstName: 1,
-          mobile: 1,
-          nationalCode: 1,
-          gender: 1,
-          birthday: 1,
-          bankAccount: 1,
-          verifiedMobile: 1
-      });
-      return allUsers;
-      }
+    const objectId = new mongoose.Types.ObjectId(userId); // تبدیل به ObjectId
+    const checkUser = await this.#model.findById(objectId);
+    if (!checkUser) throw new createHttpError(404, userMessages.notFound);
 
-      
-
-
+    await this.#model.deleteOne({ _id: objectId }); // حذف کاربر
+    return userMessages.deleteUser; // پیام موفقیت
+  }
 }
-
 
 module.exports = new userService();

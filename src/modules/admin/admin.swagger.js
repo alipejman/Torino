@@ -285,3 +285,36 @@
  *       500:
  *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /admin/delete-user/{userId}:
+ *   delete:
+ *     summary: Delete User
+ *     tags:
+ *       - Admin Panel
+ *     parameters:
+ *       - name: userId
+ *         in: path
+ *         required: true
+ *         description: The ID of the User to delete
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: User deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "User deleted successfully"
+ *       403:
+ *         description: Forbidden - You do not have permission to delete a User
+ *       404:
+ *         description: Not Found - User not found
+ *       500:
+ *         description: Internal Server Error
+ */

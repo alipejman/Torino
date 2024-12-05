@@ -5,6 +5,7 @@ const postMessages = require("../post/post.message");
 const fs = require("fs");
 const path = require("path");
 const userService = require("../user/user.service");
+const userMessages = require("../user/user.messages");
 
 class adminController {
   #postService;
@@ -15,9 +16,9 @@ class adminController {
     this.#userService = userService;
   }
 
-    // ایجاد آگهی توسط ادمین
-    async createPost(req, res, next) {
-      try {
+  // ایجاد آگهی توسط ادمین
+  async createPost(req, res, next) {
+    try {
       const { permissions } = req.admin;
       if (!permissions.includes("create-post")) {
         throw createHttpError(403, adminMessages.permissionCreatePost);
@@ -71,23 +72,27 @@ class adminController {
       await this.#postService.createPost(postData);
       return res.status(201).json({
         message: postMessages.craeted,
-      });} catch (error) {
+      });
+    } catch (error) {
       if (req.file) {
         fs.unlink(req.file.path, (err) => {
           if (err) {
-          console.error("خطا در حذف تصویر:", err);}});
+            console.error("خطا در حذف تصویر:", err);
+          }
+        });
       }
       console.error("خطا در ایجاد پست:", error);
-      next(error);}}
+      next(error);
+    }
+  }
 
-
-    // بروزرسانی آگهی توسط ادمین
-    async updatePost(req, res, next) {
-      try {
+  // بروزرسانی آگهی توسط ادمین
+  async updatePost(req, res, next) {
+    try {
       const { permissions } = req.admin;
       if (!permissions.includes("update-post")) {
-        throw createHttpError(
-          403, adminMessages.permissionUpdatePost);}
+        throw createHttpError(403, adminMessages.permissionUpdatePost);
+      }
       const { postId } = req.params;
       const {
         title,
@@ -108,7 +113,8 @@ class adminController {
       const parsedReturnDate = JSON.parse(returnDate);
       const existingPost = await this.#postService.getPostById(postId);
       if (!existingPost) {
-        throw createHttpError(404, "پست پیدا نشد.");}
+        throw createHttpError(404, "پست پیدا نشد.");
+      }
       if (req.file) {
         const oldImagePath = existingPost.image[0];
         console.log("مسیر تصویر قبلی:", oldImagePath);
@@ -119,11 +125,15 @@ class adminController {
           "..",
           "..",
           "uploads",
-          imageName);
+          imageName
+        );
         console.log("مسیر کامل تصویر قبلی:", fullOldImagePath);
         fs.access(fullOldImagePath, fs.constants.F_OK, (err) => {
           if (err) {
-            console.error("تصویر قبلی اصلا وجود نداره داداش:", fullOldImagePath);
+            console.error(
+              "تصویر قبلی اصلا وجود نداره داداش:",
+              fullOldImagePath
+            );
           } else {
             fs.unlink(fullOldImagePath, (err) => {
               if (err) {
@@ -223,20 +233,35 @@ class adminController {
     }
   }
 
-
+  // دریافت لیست کاربران همراه با دیتای هر کاربر
   async getAllUsers(req, res, next) {
     try {
-      const {permissions} = req.admin;
-      if(!permissions.includes('get_users')) throw new createHttpError(404, adminMessages.permissionGetUsers);
+      const { permissions } = req.admin;
+      if (!permissions.includes("get_users"))
+        throw new createHttpError(404, adminMessages.permissionGetUsers);
       const allUsers = await this.#userService.getAllUsers();
       return res.status(200).json({
-        allUsers
+        allUsers,
       });
     } catch (error) {
       next(error);
     }
   }
 
+  // حذف کاربر توسط ادمین
+  async deleteUser(req, res, next) {
+    try {
+      const { permissions } = req.admin;
+      if (!permissions.includes("delete_user")) {
+        throw new createHttpError(403, adminMessages.permissionGetUsers);
+      }
+      const { userId } = req.params;
+      const message = await this.#userService.deleteUser(userId);
+      return res.status(200).json({ message });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new adminController();

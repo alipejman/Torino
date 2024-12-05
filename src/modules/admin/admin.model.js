@@ -15,7 +15,6 @@ const adminSchema = new Schema(
             "update-post",
             "delete-post",
             "get_users",
-            "create_user",
             "delete_user",
           ],
         },
