@@ -5,19 +5,19 @@
  *     description: Admin Module and Routes
  *     x-order: 1
  *   - name: Admin Auth
- *     description: Post-related operations
+ *     description: Admin Auth Module
  *     x-order: 2
  *   - name: User Auth
- *     description: Tour-related operations
+ *     description: User Auth Module
  *     x-order: 3
  *   - name: User
- *     description: Generate reports for admin
+ *     description: User Dashboard
  *     x-order: 4
  *   - name: Tours
- *     description: User-related operations
+ *     description: Search Toures
  *     x-order: 5
  *   - name: Reservations
- *     description: Booking-related operations
+ *     description: Reserve Module
  *     x-order: 6
  */
 
