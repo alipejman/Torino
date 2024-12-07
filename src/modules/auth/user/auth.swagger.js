@@ -1,9 +1,3 @@
-/**
- * @swagger
- * tags:
- *  name: User Auth
- *  description: Auth Module and Routes
- */
 
 /**
  * @swagger

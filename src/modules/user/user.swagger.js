@@ -1,9 +1,3 @@
-/**
- * @swagger
- * tags:
- *   name: User
- *   description: User Module and Routes
- */
 
 /**
  * @swagger
@@ -299,7 +293,7 @@
  * @swagger
  * /user/tours:
  *   get:
- *     summary: دریافت آگهی‌های کاربر
+ *     summary: User Tour
  *     tags:
  *       - User
  *     security:

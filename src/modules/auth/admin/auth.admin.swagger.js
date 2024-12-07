@@ -1,9 +1,3 @@
-/**
- * @swagger
- * tags:
- *  name: Admin Auth
- *  description: Admin Authentication Module and Routes
- */
 
 /**
  * @swagger

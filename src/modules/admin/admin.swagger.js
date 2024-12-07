@@ -1,9 +1,26 @@
 /**
  * @swagger
  * tags:
- *   name: Admin Panel
- *   description: Admin Module and Routes
+ *   - name: Admin Panel
+ *     description: Admin Module and Routes
+ *     x-order: 1
+ *   - name: Admin Auth
+ *     description: Post-related operations
+ *     x-order: 2
+ *   - name: User Auth
+ *     description: Tour-related operations
+ *     x-order: 3
+ *   - name: User
+ *     description: Generate reports for admin
+ *     x-order: 4
+ *   - name: Tours
+ *     description: User-related operations
+ *     x-order: 5
+ *   - name: Reservations
+ *     description: Booking-related operations
+ *     x-order: 6
  */
+
 
 /**
  * @swagger

@@ -2,7 +2,7 @@
  * @swagger
  * /api/reservations/reserve:
  *   post:
- *     summary: ایجاد رزرو تور
+ *     summary: Create Reserve Tour
  *     tags:
  *       - Reservations
  *     requestBody:
@@ -42,7 +42,7 @@
  * @swagger
  * /api/reservations/{reservationId}/cancel:
  *   post:
- *     summary: لغو رزرو تور
+ *     summary: Cancel Tour Reserve
  *     tags:
  *       - Reservations
  *     parameters:
@@ -74,7 +74,7 @@
  * @swagger
  * /api/reservations/{reservationId}/confirm:
  *   post:
- *     summary: تأیید رزرو تور
+ *     summary: Confirm Tour Reserve
  *     tags:
  *       - Reservations
  *     parameters:

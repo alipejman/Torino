@@ -1,14 +1,9 @@
-/**
- * @swagger
- * tags:
- *   name: Tours
- *   description: Search Api Module and Routes
- */
+
 /**
  * @swagger
  * /api/tours/search:
  *   post:
- *     summary: جستجوی تورها
+ *     summary: Tour Search
  *     tags:
  *       - Tours
  *     requestBody:
