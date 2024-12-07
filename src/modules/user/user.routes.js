@@ -10,6 +10,10 @@ const router = Router();
     router.put('/setEmail',authorizationGuard, emailValidator,userController.setUserEmail);
     router.put('/personal-data',authorizationGuard,nationalCodeValidation,userController.setUserPersonalData);
     router.put('/bank-data',authorizationGuard,bankAccountValidations, userController.submitBankAccountDetails);
+    // user.routes.js
+router.get('/get-transactions', authorizationGuard, userController.getTransActions);
+router.get('/tours', authorizationGuard, userController.getTours);
+
 
 
 module.exports = {

@@ -3,11 +3,14 @@ const userModel = require("../user/user.model");
 const createHttpError = require("http-errors");
 const userMessages = require("./user.messages");
 const { default: mongoose } = require("mongoose");
+const postModel = require('../post/post.model');
 class userService {
   #model;
+  #postModel;
   constructor() {
     autoBind(this);
     this.#model = userModel;
+    this.#postModel = postModel;
   }
 
   // ست کردن ایمیل کاربر در پنل کاربری
@@ -84,6 +87,42 @@ class userService {
 
     await this.#model.deleteOne({ _id: objectId }); // حذف کاربر
     return userMessages.deleteUser; // پیام موفقیت
+  }
+
+  // user.service.js
+  async getTransActions(userId) {
+    const user = await this.#model
+      .findById(userId)
+      .populate("transactions.postId"); // فرض بر این است که postId به یک مدل دیگر مرتبط است
+    if (!user) throw createHttpError(404, "کاربر پیدا نشد");
+
+    const tours = user.transactions.map((transaction) => {
+      return {
+        date: transaction.date,
+        amount: transaction.amount,
+        transactionType: transaction.transactionType,
+        orderNumber: transaction.orderNumber,
+        post: transaction.postId, // اطلاعات آگهی
+      };
+    });
+
+    return tours;
+  }
+
+  async getTours(userId) {
+    // پیدا کردن کاربر بر اساس userId
+    const user = await this.#model.findById(userId);
+    if (!user) {
+      throw new createHttpError.NotFound("کاربر پیدا نشد!");
+    }
+
+    // استخراج postId از آرایه transactions
+    const postIds = user.transactions.map((transaction) => transaction.postId);
+
+    // پیدا کردن آگهی‌ها بر اساس postId
+    const tours = await this.#postModel.find({ _id: { $in: postIds } }, {__v: 0, _id: 0});
+
+    return tours; // برگرداندن آگهی‌ها
   }
 }
 

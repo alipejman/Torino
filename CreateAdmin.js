@@ -19,7 +19,6 @@ mongoose.connect("mongodb://localhost:27017/Torino")
                 "update-post",
                 "delete-post",
                 "get_users",
-                "create_user",
                 "delete_user",
             ],
         });
