@@ -1,6 +1,6 @@
 
 const express = require('express');
-const authorizationGuard = require('../../common/guard/authorization.guard'); // گارد احراز هویت
+const authorizationGuard = require('../../common/guard/authorization.guard');
 const ReservationController = require('./basket.controller');
 const router = express.Router();
 

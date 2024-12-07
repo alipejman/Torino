@@ -1,16 +1,16 @@
 const { Schema, model } = require("mongoose");
 
 const reservationSchema = new Schema({
-    userId: { type: Schema.Types.ObjectId, ref: 'user', required: true }, // آیدی کاربر
-    postId: { type: Schema.Types.ObjectId, ref: 'post', required: true }, // آیدی تور
-    reservationDate: { type: Date, default: Date.now }, // تاریخ رزرو
-    expirationDate: { type: Date, required: true }, // تاریخ انقضای رزرو
+    userId: { type: Schema.Types.ObjectId, ref: 'user', required: true },
+    postId: { type: Schema.Types.ObjectId, ref: 'post', required: true },
+    reservationDate: { type: Date, default: Date.now },
+    expirationDate: { type: Date, required: true },
     status: { 
         type: String, 
         enum: ["pending", "confirmed", "canceled"], 
-        default: "pending" // وضعیت رزرو
+        default: "pending"
     },
-    passengerInfo: { // اطلاعات مسافر
+    passengerInfo: { 
         firstName: { type: String, default: null },
         lastName: { type: String, default: null },
         nationalCode: { type: String, default: null },

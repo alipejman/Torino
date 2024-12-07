@@ -1,5 +1,5 @@
 const autoBind = require('auto-bind');
-const reservationService = require('../shop/basket.service'); // سرویس رزرو
+const reservationService = require('../shop/basket.service');
 const createHttpError = require("http-errors");
 
 class ReservationController {
@@ -11,10 +11,8 @@ class ReservationController {
 
     async createReservation(req, res, next) {
         try {
-            const { postId, passengerInfo } = req.body; // passengerInfo را از درخواست دریافت کنید
+            const { postId, passengerInfo } = req.body;
             const userId = req.user._id;
-
-            // تاریخ انقضای رزرو را 5 دقیقه بعد از زمان فعلی تنظیم می‌کنیم
             const expirationDate = new Date(Date.now() + 5 * 60 * 1000);
 
             const newReservation = await this.#reserveService.createReservation(userId, postId, expirationDate, passengerInfo);

@@ -89,7 +89,6 @@ class userController {
 
 
 
-    // user.controller.js
 async getTransActions(req, res, next) {
   try {
     const userId = req.user._id;
@@ -103,7 +102,7 @@ async getTransActions(req, res, next) {
 
 async getTours(req, res, next) {
   try {
-      const userId = req.user._id; // فرض بر این است که اطلاعات کاربر در req.user موجود است
+      const userId = req.user._id;
       const tours = await this.#service.getTours(userId);
       res.status(200).json(tours);
   } catch (error) {
